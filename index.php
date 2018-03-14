@@ -11,14 +11,71 @@
         <script src="assets/js/main.js" type="text/javascript"></script>
     </head>
     <body>
+        
+        
         <div class="container">
-            
-            <p>Hallo</p>
-            
-           
-            
-            
-        </div>
+            <h2>CSV</h2> 
 
+            <?php
+            $handle = false;
+            $filename = 'articles.csv';
+            $folder = './import/';
+            if (file_exists($folder.$filename)) {
+                $handle = fopen($folder.$filename, "r");
+                $columnNames = fgetcsv($handle, 0, ';');
+                $rows = [];
+                while ($row = fgetcsv($handle, 0, ';')) {
+                     $rows[] = $row;    
+                }  
+            }     
+            ?>
+            
+     
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                       <?php 
+                       $i = 0;
+                       while ( $i < count($columnNames) ) { 
+                       ?>      
+                       <th>
+                       <?= $columnNames[$i]; ?>
+                       </th>
+                       <?php 
+                       $i ++; 
+                       } ?>
+                    </tr>
+                </thead>
+                
+    
+            <tbody> 
+                <?php foreach ( $rows as $data ) : ?> 
+                <tr>
+                  <?php 
+                  
+                  $i = 0;
+                  while ($i < count($columnNames)) {  ?> 
+                     <td><?php echo $data[$i]; ?> </td>
+                  <?php $i++; } ?> 
+                </tr>
+
+            <?php endforeach; ?>   
+           </tbody>
+           </table>
+
+            
+            
+            
+            
+            
+       </div>
+        <hr>
+        <pre>
+            <?php
+           //  print_r($rows);
+            ?>
+        </pre>   
+            
+            
     </body>
 </html>
